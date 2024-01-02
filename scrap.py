@@ -81,6 +81,10 @@ for img in soup.find_all('img'):
 
 url_image = images[0].replace('../..', 'https://books.toscrape.com/')
 
+# Extraction de la notation
+
+note = soup.find("p", class_="star-rating")['class'][1]
+
 print("URL de la page produit: " + url)
 print("UPC:" + upc)
 print("Prix HT: " + price_excluding_tax)
@@ -89,13 +93,14 @@ print("Nombre d'exemplaires disponibles: " + available_clean)
 print("Description du produit : " + product_description_clean)
 print("Category du livre : " + categorie)
 print("URL de l'image de couverture : " + url_image)
+print("La note du livre est : " + note)
 
 # Préparation du fichier CSV
 
 en_tete = ["URL", "Titre", "UPC", "Prix HT", "Prix TTC", "disponibilité",
-           "Category", "Description", "URL de l'image de couverture"]
+           "Category", "Description", "URL de l'image de couverture", "Note"]
 ligne1 = [url, title, upc, price_excluding_tax, price_including_tax,
-          available_clean, categorie, product_description_clean, url_image]
+          available_clean, categorie, product_description_clean, url_image, note]
 
 # Création du fichier CSV
 
