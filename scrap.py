@@ -5,25 +5,12 @@ import csv
 
 # adresse du livre à scraper:
 
-url = "https://books.toscrape.com/catalogue/unicorn-tracks_951/index.html"
-
-"""
-● product_page_url
-● universal_ product_code (upc)
-● title
-● price_including_tax
-● price_excluding_tax
-● number_available
-● product_description
-● category
-● review_rating
-● image_url
-
-"""
+url = "https://books.toscrape.com/catalogue/sapiens-a-brief-history-of-humankind_996/index.html"
 
 page = requests.get(url)
 
-soup = BeautifulSoup(page.content, 'html.parser')
+if page.status_code == 200:
+    soup = BeautifulSoup(page.content, 'html.parser')
 
 # Extraction du titre
 titre = soup.find("h1")
@@ -72,6 +59,18 @@ for a in category:
 
 categorie = list_as[3]
 
+# Extraction de l'adresse de l'image de couverture
+
+images = []
+for img in soup.find_all('img'):
+    images.append(img.get('src'))
+
+url_image = images[0].replace('../..', 'https://books.toscrape.com/')
+
+# Extraction de la notation
+
+note = soup.find("p", class_="star-rating")['class'][1]
+
 print("URL de la page produit: " + url)
 print("UPC:" + upc)
 print("Prix HT: " + price_excluding_tax)
@@ -79,11 +78,19 @@ print("Prix TTC: " + price_including_tax)
 print("Nombre d'exemplaires disponibles: " + available_clean)
 print("Description du produit : " + product_description_clean)
 print("Category du livre : " + categorie)
+print("URL de l'image de couverture : " + url_image)
+print("La note du livre est : " + note)
+
+# Préparation du fichier CSV
 
 en_tete = ["URL", "Titre", "UPC", "Prix HT", "Prix TTC", "disponibilité",
-           "Category", "Description"]
+           "Category", "Description", "URL de l'image de couverture",
+           "Notation"]
 ligne1 = [url, title, upc, price_excluding_tax, price_including_tax,
-          available_clean, categorie, product_description_clean]
+          available_clean, categorie, product_description_clean, url_image,
+          note]
+
+# Création du fichier CSV
 
 with open('data.csv', 'w') as fichier_csv:
     writer = csv.writer(fichier_csv, delimiter=",")
