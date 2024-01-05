@@ -24,7 +24,6 @@ def book_scrap(url):
     # Extraction du titre
     titre = soup.find("h1")
     title = titre.string
-    print("Titre du livre: " + title)
 
     # Extraction des données du tableau sous forme de liste
     tds = soup.find_all("td")
@@ -89,17 +88,8 @@ def book_scrap(url):
 
     note_finale = score_value[note]
 
-    print("URL de la page produit: " + url)
-    print("UPC:" + upc)
-    print("Prix HT: " + price_excluding_tax)
-    print("Prix TTC: " + price_including_tax)
-    print("Nombre d'exemplaires disponibles: " + available_clean)
-    print("Description du produit : " + product_description_clean)
-    print("Category du livre : " + categorie)
-    print("URL de l'image de couverture : " + url_image)
-    print("Note du livre : " + note_finale)
-
-    book_data = {
+    books_data.append(
+        {
         'title': title,
         'url': url,
         'UPC': upc,
@@ -111,9 +101,10 @@ def book_scrap(url):
         'URL de l\'image de couverture': url_image,
         'Note': note_finale
     }
+    )
 
-    print(book_data)
 
+books_data = []
 
 book_urls = []
 
@@ -152,14 +143,15 @@ while next_element is not None:
         next_element = soup.find("li", class_="next")
 
 
-def create_csv(book_data):
+# fonction permettant la Création du fichier CSV
+def create_csv(books_data):
     en_tete = ["URL", "Titre", "UPC", "Prix HT", "Prix TTC", "disponibilité", "Categorie", "Description", "URL de l'image de couverture", "Notation"]
-    ligne = [book_data]
 
-    # Création du fichier CSV
-
-    with open('data.csv', 'w') as fichier_csv:
-        writer = csv.DictWriter(fichier_csv, delimiter=",")
+    with open('data.csv', 'a', encoding='UTF-8-sig') as fichier_csv:
+        writer = csv.writer(fichier_csv,  delimiter=",")
         writer.writerow(en_tete)
-        writer.writerow(ligne)
+        for data in books_data:
+            writer.writerow(data.values())
 
+
+create_csv(books_data)
