@@ -1,6 +1,7 @@
 import requests
 from bs4 import BeautifulSoup
 import csv
+import urllib.request
 
 books_data = []
 
@@ -113,6 +114,11 @@ def book_scrap(url):
     }
     )
 
+    f = open(f'{title}.jpg', "wb")
+    f.write(urllib.request.urlopen(url_image).read())
+    f.close()
+    return categorie
+
 
 def category_scrap(soup, book_urls):
     articles = soup.find_all("article", class_="product_pod")
@@ -144,11 +150,13 @@ def category_scrap(soup, book_urls):
             book_url = "https://books.toscrape.com/catalogue/" + chemin[3]
             book_urls.append(book_url)
 
-        for url in book_urls:
-            book_scrap(url)
+        for book_url in book_urls:
+            book_scrap(book_url)
 
             next_element = soup.find("li", class_="next")
 
+        # création fichier images de couverture
+        
 
 category_scrap(soup, book_urls)
 
@@ -156,9 +164,12 @@ category_scrap(soup, book_urls)
 # fonction permettant la Création du fichier CSV
 
 def create_csv(books_data):
+    categorie = soup.find("li", class_="active")
+    category_name = categorie.text
+
     en_tete = ["Titre", "URL", "UPC", "Prix HT", "Prix TTC", "disponibilité", "Description", "Categorie", "URL de l'image de couverture", "Notation"]
 
-    with open('data.csv', 'a', encoding='UTF-8-sig') as fichier_csv:
+    with open(f'{category_name}.csv', 'w', encoding='UTF-8-sig') as fichier_csv:
         writer = csv.writer(fichier_csv,  delimiter=",")
         writer.writerow(en_tete)
         for data in books_data:
