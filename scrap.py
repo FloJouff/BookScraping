@@ -1,5 +1,6 @@
 import requests
 from bs4 import BeautifulSoup
+import urllib.request
 
 import csv
 
@@ -15,7 +16,7 @@ if page.status_code == 200:
 # Extraction du titre
 titre = soup.find("h1")
 title = titre.string
-print("Titre du livre: " + title)
+# print("Titre du livre: " + title)
 
 # Extraction des données du tableau sous forme de liste
 tds = soup.find_all("td")
@@ -80,15 +81,20 @@ score_value = {
 
 note_finale = score_value[note]
 
-print("URL de la page produit: " + url)
-print("UPC:" + upc)
-print("Prix HT: " + price_excluding_tax)
-print("Prix TTC: " + price_including_tax)
-print("Nombre d'exemplaires disponibles: " + available_clean)
-print("Description du produit : " + product_description_clean)
-print("Category du livre : " + categorie)
-print("URL de l'image de couverture : " + url_image)
-print("Note du livre : " + note_finale)
+# print("URL de la page produit: " + url)
+# print("UPC:" + upc)
+# print("Prix HT: " + price_excluding_tax)
+# print("Prix TTC: " + price_including_tax)
+# print("Nombre d'exemplaires disponibles: " + available_clean)
+# print("Description du produit : " + product_description_clean)
+print(categorie)
+# print("URL de l'image de couverture : " + url_image)
+# print("Note du livre : " + note_finale)
+
+# création fichier images de couverture
+f = open("images.jpg", "wb")
+f.write(urllib.request.urlopen(url_image).read())
+f.close()
 
 # Préparation du fichier CSV
 
@@ -101,7 +107,7 @@ ligne1 = [url, title, upc, price_excluding_tax, price_including_tax,
 
 # Création du fichier CSV
 
-with open('data.csv', 'w') as fichier_csv:
+with open('(f"{categorie}").csv', 'w') as fichier_csv:
     writer = csv.writer(fichier_csv, delimiter=",")
     writer.writerow(en_tete)
     writer.writerow(ligne1)
