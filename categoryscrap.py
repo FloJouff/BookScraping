@@ -2,9 +2,13 @@ import requests
 from bs4 import BeautifulSoup
 import csv
 
+books_data = []
+
+book_urls = []
+
 # adresse de la catégorie à scraper:
 
-category_url = "https://books.toscrape.com/catalogue/category/books/historical-fiction_4/index.html"
+category_url = "https://books.toscrape.com/catalogue/category/books/classics_6/index.html"
 
 page = requests.get(category_url)
 
@@ -54,8 +58,14 @@ def book_scrap(url):
 
     product_description = str(list_p[3])
 
-    product_description_clean = product_description.strip("</p>")
+    # Gestion des cas particuliers: 
 
+    exclu = "star-rating"
+    if exclu in product_description:
+        product_description_clean = "Pas de description disponible"
+    else:
+        product_description_clean = product_description.strip("</p>")
+    
     # Extraction de la category
 
     category = soup.find_all("a")
@@ -97,40 +107,15 @@ def book_scrap(url):
         'PRIX TTC': price_including_tax,
         'disponibilité': available_clean,
         'Description du produit': product_description_clean,
-        'Categorie': categorie,
+        'categorie': categorie,
         'URL de l\'image de couverture': url_image,
         'Note': note_finale
     }
     )
 
 
-books_data = []
-
-book_urls = []
-
-articles = soup.find_all("article", class_="product_pod")
-for article in articles:
-    lien = article.find("a")["href"]
-    chemin = lien.split("../")
-    book_url = "https://books.toscrape.com/catalogue/" + chemin[3]
-    book_urls.append(book_url)
-
-for url in book_urls:
-    book_scrap(url)
-
-base_url = category_url.split('index.html')
-next_element = soup.find("li", class_="next")
-
-while next_element is not None:
-
-    next_index_page = next_element.find("a", href=True)["href"]
-    link = requests.get(str(base_url[0]) + next_index_page)
-
-    soup = BeautifulSoup(link.text, 'html.parser')
-    book_urls = []
-
+def category_scrap(soup, book_urls):
     articles = soup.find_all("article", class_="product_pod")
-
     for article in articles:
         lien = article.find("a")["href"]
         chemin = lien.split("../")
@@ -140,12 +125,38 @@ while next_element is not None:
     for url in book_urls:
         book_scrap(url)
 
-        next_element = soup.find("li", class_="next")
+    base_url = category_url.split('index.html')
+    next_element = soup.find("li", class_="next")
+
+    while next_element is not None:
+
+        next_index_page = next_element.find("a", href=True)["href"]
+        link = requests.get(str(base_url[0]) + next_index_page)
+
+        soup = BeautifulSoup(link.text, 'html.parser')
+        book_urls = []
+
+        articles = soup.find_all("article", class_="product_pod")
+
+        for article in articles:
+            lien = article.find("a")["href"]
+            chemin = lien.split("../")
+            book_url = "https://books.toscrape.com/catalogue/" + chemin[3]
+            book_urls.append(book_url)
+
+        for url in book_urls:
+            book_scrap(url)
+
+            next_element = soup.find("li", class_="next")
+
+
+category_scrap(soup, book_urls)
 
 
 # fonction permettant la Création du fichier CSV
+
 def create_csv(books_data):
-    en_tete = ["URL", "Titre", "UPC", "Prix HT", "Prix TTC", "disponibilité", "Categorie", "Description", "URL de l'image de couverture", "Notation"]
+    en_tete = ["Titre", "URL", "UPC", "Prix HT", "Prix TTC", "disponibilité", "Description", "Categorie", "URL de l'image de couverture", "Notation"]
 
     with open('data.csv', 'a', encoding='UTF-8-sig') as fichier_csv:
         writer = csv.writer(fichier_csv,  delimiter=",")
