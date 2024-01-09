@@ -2,35 +2,11 @@ import requests
 from bs4 import BeautifulSoup
 import csv
 import urllib.request
+import os.path
 
-# adresse accueil:
+books_data = []
 
-main_url = "https://books.toscrape.com/index.html"
-
-
-def get_categories_links(url):
-    page = requests.get(main_url)
-
-    if page.status_code == 200:
-        soup = BeautifulSoup(page.content, 'html.parser')
-
-    cats = soup.find("ul", class_="nav nav-list")
-
-    links = cats.find_all("a")
-    categories = []
-    for link in links:
-        categories.append([("https://books.toscrape.com/" + link["href"])])
-
-    category_url = categories[1:]
-    categories_url = [liste[0] for liste in category_url]
-
-    return categories_url
-
-
-categories_url = get_categories_links(main_url)
-
-
-# fonction permettant de récupérer les données de chaque livres
+""" fonction permettant de récupérer les données de chaque livres """
 
 
 def book_scrap(url):
@@ -43,6 +19,12 @@ def book_scrap(url):
         # Extraction du titre
     titre = soup.find("h1")
     title = titre.string
+    title = title.replace(':', '-')
+    title = title.replace('/', '-')
+    title = title.replace('\\', '-')
+    title = title.replace('\'', '-')
+    title = title.replace('\"', '-')
+    title = title.replace('*', '-')
 
     # Extraction des données du tableau sous forme de liste
     tds = soup.find_all("td")
@@ -113,7 +95,7 @@ def book_scrap(url):
 
     note_finale = score_value[note]
 
-    books_data.append(
+    book_data = (
             {'title': title,
             'url': url,
             'UPC': upc,
@@ -125,33 +107,41 @@ def book_scrap(url):
             'URL de l\'image de couverture': url_image,
             'Note': note_finale}
         )
-    f = open(f'{title}.jpg', "wb")
+
+    add_data_to_csv(categorie, book_data)
+
+    # Création du fichier image:
+
+    f = open('images' + '//' + f'{title}.jpg', "wb")
     f.write(urllib.request.urlopen(url_image).read())
     f.close()
 
-# adresse de la catégorie à scraper:
-for categorie in categories_url:
 
-    page = requests.get(categorie)
+""" Fonction permettant de scraper tous les livres d'une catégorie"""
+
+
+def category_scrap(categorie_url):
+    # adresse de la catégorie à scraper:
+    book_urls = []
+
+    page = requests.get(categorie_url)
 
     if page.status_code == 200:
-        cat_soup = BeautifulSoup(page.content, 'html.parser')   
-
-    books_data = []
-
-    book_urls = []
+        cat_soup = BeautifulSoup(page.content, 'html.parser')     
 
     articles = cat_soup.find_all("article", class_="product_pod")
     for article in articles:
         lien = article.find("a")["href"]
         chemin = lien.split("../")
-        book_url = "https://books.toscrape.com/catalogue/" + chemin[3]
+
+        book_url = "https://books.toscrape.com/catalogue/" + chemin[2]
+
         book_urls.append(book_url)
 
     for url in book_urls:
         book_scrap(url)
 
-    base_url = str(categorie).split('index.html')
+    base_url = str(categorie_url).split('index.html')
     next_element = cat_soup.find("li", class_="next")
 
     while next_element is not None:
@@ -167,7 +157,7 @@ for categorie in categories_url:
         for article in articles:
             lien = article.find("a")["href"]
             chemin = lien.split("../")
-            book_url = "https://books.toscrape.com/catalogue/" + chemin[3]
+            book_url = "https://books.toscrape.com/catalogue/" + chemin[2]
             book_urls.append(book_url)
 
         for url in book_urls:
@@ -175,19 +165,52 @@ for categorie in categories_url:
 
             next_element = soup.find("li", class_="next")
 
-    # fonction permettant la Création du fichier CSV
 
-    def create_csv(books_data):
+"""
+fonction permettant de récuperer les urls de toutes les catégories, 
+à partir de la page d'accueil"""
 
-        categorie = cat_soup.find("li", class_="active")
-        category_name = categorie.text
- 
+
+def get_categories_links():
+
+    main_url = "https://books.toscrape.com/index.html"
+    main_page = requests.get(main_url)
+
+    if main_page.status_code == 200:
+        soup = BeautifulSoup(main_page.content, 'html.parser')
+
+    cats = soup.find("ul", class_="nav nav-list")
+
+    links = cats.find_all("a")
+    categories_url = []
+
+    for link in links:
+        categories_url.append(("https://books.toscrape.com/" + link["href"]))
+
+    for categorie in categories_url:
+        category_scrap(categorie)
+
+
+"""   fonction permettant la Création du fichier CSV   """
+
+
+def add_data_to_csv(categorie_name, book_data):
+    if os.path.isfile('fichiers_csv' + '//' + f'{categorie_name}.csv'):
+        with open('fichiers_csv' + '//' + f'{categorie_name}.csv', 'a', encoding='UTF-8-sig') as fichier_csv:
+            writer = csv.writer(fichier_csv, delimiter=",")
+            writer.writerow(book_data.values())
+    else:
         en_tete = ["Titre", "URL", "UPC", "Prix HT", "Prix TTC", "disponibilité", "Description", "Categorie", "URL de l'image de couverture", "Notation"]
 
-        with open(f'{category_name}.csv', 'a', encoding='UTF-8-sig') as fichier_csv:
-            writer = csv.writer(fichier_csv, books_data, delimiter=",")
+        with open('fichiers_csv' + '//' + f'{categorie_name}.csv', 'a', encoding='UTF-8-sig') as fichier_csv:
+            writer = csv.writer(fichier_csv, delimiter=",")
             writer.writerow(en_tete)
-            for data in books_data:
-                writer.writerow(data.values())
+            writer.writerow(book_data.values())
 
-    create_csv(books_data)
+
+def main():
+    get_categories_links()
+
+
+if __name__ == "__main__":
+    main()
