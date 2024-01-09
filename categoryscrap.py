@@ -9,7 +9,7 @@ book_urls = []
 
 # adresse de la catégorie à scraper:
 
-category_url = "https://books.toscrape.com/catalogue/category/books/classics_6/index.html"
+category_url = "https://books.toscrape.com/catalogue/category/books/travel_2/index.html"
 
 page = requests.get(category_url)
 
@@ -84,8 +84,11 @@ def book_scrap(url):
     for img in soup.find_all('img'):
         images.append(img.get('src'))
 
-    url_image = images[0].replace('../..', 'https://books.toscrape.com/')
+    url_image = images[0].replace('../..', 'https://books.toscrape.com')
 
+    print(url_image)
+    
+    
     # Extraction de la notation
 
     note = soup.find("p", class_="star-rating")['class'][1]
@@ -114,10 +117,11 @@ def book_scrap(url):
     }
     )
 
-    f = open(f'{title}.jpg', "wb")
+    # création fichier images de couverture
+    
+    f = open('images' + '//' + f'{title}.jpg', "wb")
     f.write(urllib.request.urlopen(url_image).read())
     f.close()
-    return categorie
 
 
 def category_scrap(soup, book_urls):
@@ -155,8 +159,6 @@ def category_scrap(soup, book_urls):
 
             next_element = soup.find("li", class_="next")
 
-        # création fichier images de couverture
-        
 
 category_scrap(soup, book_urls)
 
@@ -169,7 +171,7 @@ def create_csv(books_data):
 
     en_tete = ["Titre", "URL", "UPC", "Prix HT", "Prix TTC", "disponibilité", "Description", "Categorie", "URL de l'image de couverture", "Notation"]
 
-    with open(f'{category_name}.csv', 'w', encoding='UTF-8-sig') as fichier_csv:
+    with open('fichiers_csv' + '//' + f'{category_name}.csv', 'w', encoding='UTF-8-sig') as fichier_csv:
         writer = csv.writer(fichier_csv,  delimiter=",")
         writer.writerow(en_tete)
         for data in books_data:
