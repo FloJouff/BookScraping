@@ -1,7 +1,5 @@
-.env
+.env/
 test.py
-.idea
-.csv
-test2.py
-/images
-/fichiers_csv
+.idea/
+images/
+fichiers_csv/*.csv
