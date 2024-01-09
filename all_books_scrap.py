@@ -19,12 +19,15 @@ def book_scrap(url):
         # Extraction du titre
     titre = soup.find("h1")
     title = titre.string
-    title = title.replace(':', '-')
-    title = title.replace('/', '-')
-    title = title.replace('\\', '-')
-    title = title.replace('\'', '-')
-    title = title.replace('\"', '-')
-    title = title.replace('*', '-')
+    title = title.replace(':', '_')
+    title = title.replace('/', '_')
+    title = title.replace('\\', '_')
+    title = title.replace('\'', '_')
+    title = title.replace('\"', '_')
+    title = title.replace('*', '_')
+    title = title.replace('~', '_')
+    title = title.replace('`', '_')
+    title = title.replace('?', '_')
 
     # Extraction des données du tableau sous forme de liste
     tds = soup.find_all("td")
@@ -112,7 +115,8 @@ def book_scrap(url):
 
     # Création du fichier image:
 
-    f = open('images' + '//' + f'{title}.jpg', "wb")
+    os.makedirs('images' + '//' + f'{categorie}', exist_ok=True)
+    f = open('images' + '//' + f'{categorie}' + '//' + f'{title}.jpg', "wb")
     f.write(urllib.request.urlopen(url_image).read())
     f.close()
 
