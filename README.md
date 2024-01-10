@@ -66,9 +66,9 @@ le dossier /fichiers_csv contient les données extraites pour chaque livre, clas
 
 Pour consulter les fichiers csv, il faut les ouvrir avec Excel ou équivalent:
 Sur Excel:
- - "Data" (ou données)
-  - "From Text"
-   - Sélectionner le fichier à consulter --> "get-data"
-    - "Delimited" --> "Next"
-     - "Comma" (ou virgules) --> "next"
-      - "Finish" puis "ok"
+- "Data" (ou données)
+- "From Text"
+- Sélectionner le fichier à consulter --> "get-data"
+- "Delimited" --> "Next"
+- "Comma" (ou virgules) --> "next"
+- "Finish" puis "ok"
