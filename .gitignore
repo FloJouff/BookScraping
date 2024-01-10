@@ -1,6 +1,5 @@
 .env/
-test.py
 .idea/
 images/
 fichiers_csv/*.csv
-READMEBu.md
+données/
