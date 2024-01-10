@@ -65,7 +65,8 @@ Le dossier /images contient les images de toutes les pages de couvertures, de ch
 le dossier /fichiers_csv contient les données extraites pour chaque livre, classées par catégories.
 
 Pour consulter les fichiers csv, il faut les ouvrir avec Excel ou équivalent:
-Sur Excel:
+
+* Sur Excel: *
 - "Data" (ou données)
 - "From Text"
 - Sélectionner le fichier à consulter --> "get-data"
