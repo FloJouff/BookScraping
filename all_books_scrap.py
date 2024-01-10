@@ -4,7 +4,6 @@ import csv
 import urllib.request
 import os.path
 
-books_data = []
 
 """ fonction permettant de récupérer les données de chaque livres """
 
@@ -58,7 +57,7 @@ def book_scrap(url):
 
     product_description = str(list_p[3])
 
-    # Gestion des cas particuliers: 
+    # Gestion des cas particuliers:
 
     exclu = "star-rating"
     if exclu in product_description:
@@ -171,7 +170,7 @@ def category_scrap(categorie_url):
 
 
 """
-fonction permettant de récuperer les urls de toutes les catégories, 
+fonction permettant de récuperer les urls de toutes les catégories,
 à partir de la page d'accueil"""
 
 
@@ -200,13 +199,17 @@ def get_categories_links():
 
 def add_data_to_csv(categorie_name, book_data):
     if os.path.isfile('fichiers_csv' + '//' + f'{categorie_name}.csv'):
-        with open('fichiers_csv' + '//' + f'{categorie_name}.csv', 'a', encoding='UTF-8-sig') as fichier_csv:
+        with open('fichiers_csv' + '//' + f'{categorie_name}.csv', 'a',
+                  encoding='UTF-8-sig') as fichier_csv:
             writer = csv.writer(fichier_csv, delimiter=",")
             writer.writerow(book_data.values())
     else:
-        en_tete = ["Titre", "URL", "UPC", "Prix HT", "Prix TTC", "disponibilité", "Description", "Categorie", "URL de l'image de couverture", "Notation"]
+        en_tete = ["Titre", "URL", "UPC", "Prix HT", "Prix TTC",
+                   "disponibilité", "Description", "Categorie",
+                    "URL de l'image de couverture", "Notation"]
 
-        with open('fichiers_csv' + '//' + f'{categorie_name}.csv', 'a', encoding='UTF-8-sig') as fichier_csv:
+        with open('fichiers_csv' + '//' + f'{categorie_name}.csv', 'a',
+                  encoding='UTF-8-sig') as fichier_csv:
             writer = csv.writer(fichier_csv, delimiter=",")
             writer.writerow(en_tete)
             writer.writerow(book_data.values())
