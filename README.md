@@ -69,7 +69,7 @@ Pour consulter les fichiers csv, il faut les ouvrir avec Excel ou équivalent:
 **Avec Excel:**
 - "Data" (ou données)
 - "From Text"
-- Sélectionner le fichier à consulter --> "get-data"
+- Sélectionner le fichier à consulter --> "Get-data"
 - "Delimited" --> "Next"
-- "Comma" (ou virgules) --> "next"
-- "Finish" puis "ok"
+- "Comma" (ou virgules) --> "Next"
+- "Finish" puis "Ok"
