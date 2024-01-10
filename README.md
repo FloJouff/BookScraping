@@ -28,7 +28,7 @@ A partir du terminal, taper la commande suivante:
 
 #### Installation des paquets Python nécessaires à l'execution du code: 
 
-le fichier --requirements.txt-- été cloné à partir du repository GitHub.
+Le fichier --requirements.txt-- été cloné à partir du repository GitHub.
 A partir du terminal, taper la commande suivante:
    
     $ pip install -r requirements.txt
@@ -37,7 +37,7 @@ Une fois l'installation terminée, taper la commande suivante pour vous assurer 
 
     $ pip freeze
 
-Les paquets, ainsi que leurs dépendances doivent apparaitre (les versions peuvent être différentes):
+Les paquets, ainsi que leurs dépendances, doivent apparaitre (les versions peuvent être différentes):
 
     beautifulsoup4==4.12.2
     certifi==2023.11.17
@@ -65,10 +65,10 @@ Le dossier /images contient les images de toutes les pages de couvertures, de ch
 le dossier /fichiers_csv contient les données extraites pour chaque livre, classées par catégories.
 
 Pour consulter les fichiers csv, il faut les ouvrir avec Excel ou équivalent:
-    Sur Excel:
-    - "Data" (ou données)
-        - "From Text"
-            - Sélectionner le fichier à consulter --> "get-data"
-                - "Delimited" --> "Next"
-                    - "Comma" (ou virgules) --> "next"
-                        - "Finish" puis "ok"
+Sur Excel:
+ - "Data" (ou données)
+  - "From Text"
+   - Sélectionner le fichier à consulter --> "get-data"
+    - "Delimited" --> "Next"
+     - "Comma" (ou virgules) --> "next"
+      - "Finish" puis "ok"
