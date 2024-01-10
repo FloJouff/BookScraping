@@ -2,6 +2,12 @@
 
 ### Etapes d'installation:
 
+#### Installer Python 
+    
+L’installation de Python est très simple ! Rendez-vous sur [python.org](https://www.python.org/downloads/), choisissez votre système d’exploitation (Mac/Windows, etc.) et cliquez sur le bouton de téléchargement pour installer Python sur votre ordinateur. 
+
+Si vous utilisez Windows, pensez à bien cocher la case "Add to path" pour ajouter Python aux variables d'environnement.
+
 #### Faire une copie du repository.
 
 A partir du lien GitHub: https://github.com/FloJouff/BookScraping.git, créer un clone du projet en local sur votre ordinateur
