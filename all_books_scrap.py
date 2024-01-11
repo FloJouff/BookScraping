@@ -12,10 +12,9 @@ def book_scrap(url):
 
     book_page = requests.get(url)
 
-    if book_page.status_code == 200:
-        soup = BeautifulSoup(book_page.content, 'html.parser')
+    soup = BeautifulSoup(book_page.content, 'html.parser')
 
-        # Extraction du titre
+    # Extraction du titre
     titre = soup.find("h1")
     title = titre.string
     title = title.replace(':', '_')
