@@ -34,7 +34,7 @@ A partir du terminal, taper la commande suivante:
 
 #### Installation des paquets Python nécessaires à l'execution du code: 
 
-Le fichier --requirements.txt-- été cloné à partir du repository GitHub.
+Le fichier --requirements.txt-- a été cloné à partir du repository GitHub.
 A partir du terminal, taper la commande suivante:
    
     $ pip install -r requirements.txt
@@ -66,7 +66,7 @@ Une fois le script lancé, il faut entre 25 et 30 min pour extraire toutes les d
 
 ### Consultation des données:
 
-Le dossier /images contient les images de toutes les pages de couvertures, de chaque livre, classées par catégories.
+Le dossier /images contient les images de toutes les pages de couvertures, de chaque livre, classées par catégories et identifiée par le nom de l'ouvrage.
 
 le dossier /fichiers_csv contient les données extraites pour chaque livre, classées par catégories.
 
