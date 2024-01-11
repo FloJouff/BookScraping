@@ -43,7 +43,7 @@ Une fois l'installation terminée, taper la commande suivante pour vous assurer 
 
     $ pip freeze
 
-Les paquets, ainsi que leurs dépendances, doivent apparaitre (les versions peuvent être différentes):
+Les paquets, ainsi que leurs dépendances, doivent apparaitre comme ci-dessous:
 
     beautifulsoup4==4.12.2
     certifi==2023.11.17
