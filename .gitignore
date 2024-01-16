@@ -1,5 +1,5 @@
 .env/
 .idea/
 images/
-fichiers_csv/*.csv
+fichiers_csv/
 données/
