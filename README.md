@@ -63,7 +63,7 @@ Une fois le script lancé, il faut entre 25 et 30 min pour extraire toutes les d
 
 vous avez également la possibilité de lancer le script alternatif menu.py:
 
-    $ Python all_books_scrap.py
+    $ Python menu.py
 
 En choississant ce script, vous accéderez à un menu vous proposant de scrapper le site dans son entièreté, une catégorie spécifique ou encore un livre en particulier.
 
@@ -71,9 +71,9 @@ En choississant ce script, vous accéderez à un menu vous proposant de scrapper
 
 Quel que soit votre choix d'éxécution, les données sont consultables dans les deux dossiers suivants:
 
-    Le dossier /images contient les images de toutes les pages de couvertures, de chaque livre, classées par catégories et identifiée par le nom de l'ouvrage.
+Le dossier /images contient les images de toutes les pages de couvertures, de chaque livre, classées par catégories et identifiée par le nom de l'ouvrage.
 
-    Le dossier /fichiers_csv contient les données extraites pour chaque livre, classées par catégories.
+Le dossier /fichiers_csv contient les données extraites pour chaque livre, classées par catégories.
 
 Pour consulter les fichiers csv, il faut les ouvrir avec Excel ou équivalent:
 
