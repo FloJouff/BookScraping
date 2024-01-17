@@ -139,7 +139,7 @@ def category_scrap(categorie_url):
 
         book_urls.append(book_url)
 
-    # nexts pages
+    # Gestion du next dans une categorie
 
     base_url = str(categorie_url).split('index.html')
     next_element = cat_soup.find("li", class_="next")
