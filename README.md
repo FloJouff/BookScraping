@@ -58,17 +58,26 @@ Les paquets, ainsi que leurs dépendances, doivent apparaitre comme ci-dessous:
 
 #### Lancer le script à partir du terminal: 
 
-Vous pouvez enfin exécuter le script all_books_scrap.py correctement, à partir d'un terminal:
+Vous pouvez enfin exécuter le script all_books_scrap.py correctement, à partir d'un terminal.
+Ce fichier permet, une fois exécuté, de lancer la récolte des données sur l'intégralité du site.
 
     $ Python all_books_scrap.py
 
 Une fois le script lancé, il faut entre 25 et 30 min pour extraire toutes les données, qui seront automatiquement enregistrées dans les dossiers créés : /images et /fichiers_csv
 
+vous avez également la possibilité de lancer le script alternatif menu.py:
+
+    $ Python all_books_scrap.py
+
+En choississant ce script, vous accéderez à un menu vous proposant de scrapper le site dans son entièreté, une catégorie spécifique ou encore un livre en particulier.
+
 ### Consultation des données:
 
-Le dossier /images contient les images de toutes les pages de couvertures, de chaque livre, classées par catégories et identifiée par le nom de l'ouvrage.
+Quel que soit votre choix d'éxécution, les données sont consultables dans les deux dossiers suivants:
 
-le dossier /fichiers_csv contient les données extraites pour chaque livre, classées par catégories.
+    Le dossier /images contient les images de toutes les pages de couvertures, de chaque livre, classées par catégories et identifiée par le nom de l'ouvrage.
+
+    Le dossier /fichiers_csv contient les données extraites pour chaque livre, classées par catégories.
 
 Pour consulter les fichiers csv, il faut les ouvrir avec Excel ou équivalent:
 
