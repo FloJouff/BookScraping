@@ -21,9 +21,6 @@ Depuis votre terminal, à la racine du projet, créer un environnement virtuel, 
     $ ls
     all_books_scrap.py      env      requirements.txt       README.md
 
-#### Créer les dossiers /images et /fichiers_csv 
-
-A la racine du projet, créer ces deux dossiers, qui permettront d'y enregistrer les données extraites
 
 #### Activation de l'environnement virtuel
 
