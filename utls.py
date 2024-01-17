@@ -95,18 +95,7 @@ def book_scrap(url):
 
     note_finale = score_value[note]
 
-    book_data = (
-            {'title': title,
-            'url': url,
-            'UPC': upc,
-            'PRIX HT': price_excluding_tax,
-            'PRIX TTC': price_including_tax,
-            'disponibilité': available_clean,
-            'Description du produit': product_description_clean,
-            'Categorie': categorie,
-            'URL de l\'image de couverture': url_image,
-            'Note': note_finale}
-        )
+    book_data = [title, url, upc, price_excluding_tax, price_including_tax, available_clean, product_description_clean, categorie, url_image, note_finale]
 
     add_data_to_csv(categorie, book_data)
 
@@ -139,7 +128,7 @@ def category_scrap(categorie_url):
 
         book_urls.append(book_url)
 
-    # Gestion du next dans une categorie
+    # nexts pages
 
     base_url = str(categorie_url).split('index.html')
     next_element = cat_soup.find("li", class_="next")
@@ -195,19 +184,20 @@ def get_categories_links():
 
 
 def add_data_to_csv(categorie_name, book_data):
+    print("book data = ", book_data)
     os.makedirs('fichiers_csv', exist_ok=True)
     if os.path.isfile('fichiers_csv' + '//' + f'{categorie_name}.csv'):
         with open('fichiers_csv' + '//' + f'{categorie_name}.csv', 'a',
                   encoding='UTF-8-sig') as fichier_csv:
-            writer = csv.writer(fichier_csv, delimiter=",")
-            writer.writerow(book_data.values())
+            writer = csv.writer(fichier_csv, delimiter=",", lineterminator='\n')
+            writer.writerow(book_data)
     else:
-        en_tete = ["Titre", "URL", "UPC", "Prix HT", "Prix TTC",
+        fieldnames = ["Titre", "URL", "UPC", "Prix HT", "Prix TTC",
                    "disponibilité", "Description", "Categorie",
                     "URL de l'image de couverture", "Notation"]
 
         with open('fichiers_csv' + '//' + f'{categorie_name}.csv', 'a',
                   encoding='UTF-8-sig') as fichier_csv:
-            writer = csv.writer(fichier_csv, delimiter=",")
-            writer.writerow(en_tete)
-            writer.writerow(book_data.values())
+            writer = csv.writer(fichier_csv, delimiter=",",lineterminator='\n')
+            writer.writerow(fieldnames)
+            writer.writerow(book_data)
