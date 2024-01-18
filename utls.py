@@ -184,7 +184,6 @@ def get_categories_links():
 
 
 def add_data_to_csv(categorie_name, book_data):
-    print("book data = ", book_data)
     os.makedirs('fichiers_csv', exist_ok=True)
     if os.path.isfile('fichiers_csv' + '//' + f'{categorie_name}.csv'):
         with open('fichiers_csv' + '//' + f'{categorie_name}.csv', 'a',
@@ -198,6 +197,6 @@ def add_data_to_csv(categorie_name, book_data):
 
         with open('fichiers_csv' + '//' + f'{categorie_name}.csv', 'a',
                   encoding='UTF-8-sig') as fichier_csv:
-            writer = csv.writer(fichier_csv, delimiter=",",lineterminator='\n')
+            writer = csv.writer(fichier_csv, delimiter=",", lineterminator='\n')
             writer.writerow(fieldnames)
             writer.writerow(book_data)
